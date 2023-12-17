@@ -31,6 +31,9 @@ class HypTan(GrayboxBaseModel):
 
         self.parameters.values = param_dict
 
+    def reset(self):
+        self.low_pass.reset_buffer()
+
     def process_sample(self, input: float) -> float:
         bias = input
 
@@ -52,6 +55,3 @@ class HypTan(GrayboxBaseModel):
         )
 
         return wet
-
-    def reset_buffer(self):
-        self.low_pass.reset_buffer()

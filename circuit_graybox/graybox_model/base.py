@@ -34,7 +34,7 @@ class GrayboxBaseModel:
     def init_param(self):
         NotImplementedError
 
-    def reset_buffer(self):
+    def reset(self):
         NotImplementedError
 
     def get_param(self) -> Dict[str, float]:
@@ -56,7 +56,7 @@ class GrayboxBaseModel:
         self, input: np.ndarray, param: Parameters
     ) -> np.ndarray:
         self.parameters = param
-        self.reset_buffer()
+        self.reset()
         
         return self.process_block(input)
     

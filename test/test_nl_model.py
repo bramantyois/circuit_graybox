@@ -1,6 +1,6 @@
 import numpy as np
 
-from circuit_graybox.graybox_model.NLModel.htan import HypTan
+from circuit_graybox.graybox_model.nl_model.htan import HypTan
 
 
 def test_nl_model():

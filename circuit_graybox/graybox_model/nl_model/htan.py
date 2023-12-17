@@ -2,10 +2,10 @@ import math
 import numpy as np
 
 from audiodsp.filter.onepole import OnePoleLP
-from ..graybox_model import GrayboxModel
+from ..base import GrayboxBaseModel
 
 
-class HypTan(GrayboxModel):
+class HypTan(GrayboxBaseModel):
     def __init__(
         self,
         name: str = "HyperbolicTangentExample",

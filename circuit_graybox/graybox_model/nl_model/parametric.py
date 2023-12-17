@@ -1,4 +1,4 @@
-from ..graybox_model import GrayboxModel
+from ..base import GrayboxModel
 
 
 class Parametric(GrayboxModel):

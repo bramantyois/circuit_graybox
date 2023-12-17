@@ -4,7 +4,7 @@ import numpy as np
 from ..data_model.parameters import Parameters
 
 
-class GrayboxModel:
+class GrayboxBaseModel:
     def __init__(
         self,
         name: str = "GrayboxModelExample",

@@ -18,5 +18,5 @@ def test_filter_onepole():
     f, pxx = estimate_welch(x, sample_rate=sr, throw_dc=True)
     lp_f, lp_pxx = estimate_welch(lp_y, sample_rate=sr, throw_dc=True)
     
-    # now for the high frequencies
+    # Check that the power of the filtered signal is less than the original
     assert lp_pxx[-10:].mean() < pxx[-10:].mean()

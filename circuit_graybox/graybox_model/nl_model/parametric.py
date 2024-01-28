@@ -1,7 +1,7 @@
-from ..base import GrayboxModel
+from ..base import NLModel
 
 
-class Parametric(GrayboxModel):
+class Parametric(NLModel):
     def __init__(self):
         super().__init__(name='ParametricExample', module_name='Parametric', module_type='non-linear')
 

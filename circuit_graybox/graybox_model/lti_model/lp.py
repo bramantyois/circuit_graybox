@@ -3,10 +3,10 @@ import numpy as np
 
 from audiodsp.filter.onepole import OnePoleLP
 
-from ..base import GrayboxBaseModel
+from ..base import LTIModel
 
 
-class Lowpass(GrayboxBaseModel):
+class Lowpass(LTIModel):
     def __init__(
         self,
         name: str = "GrayboxModelExample",

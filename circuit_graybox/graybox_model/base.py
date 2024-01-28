@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, Literal
 import numpy as np
 
 from ..data_model.parameters import Parameters
@@ -9,7 +9,7 @@ class GrayboxBaseModel:
         self,
         name: str = "GrayboxModelExample",
         module_name: str = "GrayboxModel",
-        module_type: str = "non-linear",
+        module_type: Literal["lti", "non-linear"] = "non-linear",
         sample_rate: int = 44100,
     ) -> None:
         """
@@ -25,9 +25,9 @@ class GrayboxBaseModel:
 
         self.parameters = Parameters(
             name=self.name,
-            module_name=self.module_name, 
-            module_type=self.module_type, 
-            sample_rate=self.sample_rate
+            module_name=self.module_name,
+            module_type=self.module_type,
+            sample_rate=self.sample_rate,
         )
         self.init_param()
 
@@ -37,8 +37,19 @@ class GrayboxBaseModel:
     def reset(self):
         NotImplementedError
 
-    def get_param(self) -> Dict[str, float]:
-        return self.parameters.values
+    def set_param(self, param: Parameters) -> None: 
+        self.parameters = param
+        self.reset()
+        
+    def set_param_array(self, param_arr: np.ndarray) -> None:
+        new_param_dict = {}
+        for i, key in enumerate(self.parameters.values.keys()):
+            new_param_dict[key] = param_arr[i]
+        self.parameters.values = new_param_dict
+        self.reset()
+
+    def get_param(self) -> Parameters:
+        return self.parameters
 
     def get_param_array(self) -> np.ndarray:
         return np.array(list(self.parameters.values.values()))
@@ -53,10 +64,41 @@ class GrayboxBaseModel:
         return output
 
     def process_block_with_param(
-        self, input: np.ndarray, param: Parameters
+        self, input: np.ndarray, 
+        param_arr: np.ndarray
     ) -> np.ndarray:
-        self.parameters = param
-        self.reset()
+        self.set_param_array(param_arr)
         
         return self.process_block(input)
-    
+
+
+class LTIModel(GrayboxBaseModel):
+    def __init__(
+        self,
+        name: str = "GrayboxModelExample",
+        module_name: str = "GrayboxModel",
+        sample_rate: int = 44100,
+    ) -> None:
+        """
+        Graybox model base class
+        :param name: model name
+        :param module_name: module name
+        :param module_type: module type. Choices: 'lti' (linear time invariant) for filters, 'non-linear' for non-linear modelling
+        """
+        super().__init__(name, module_name, module_type="lti", sample_rate=sample_rate)
+
+
+class NLModel(GrayboxBaseModel):
+    def __init__(
+        self,
+        name: str = "GrayboxModelExample",
+        module_name: str = "GrayboxModel",
+        sample_rate: int = 44100,
+    ) -> None:
+        """
+        Graybox model base class
+        :param name: model name
+        :param module_name: module name
+        :param module_type: module type. Choices: 'lti' (linear time invariant) for filters, 'non-linear' for non-linear modelling
+        """
+        super().__init__(name, module_name, module_type="non-linear", sample_rate=sample_rate)
